@@ -10,6 +10,7 @@ import {
   CylinderCollider,
   RapierRigidBody,
 } from "@react-three/rapier";
+import { assetUrl } from "../utils/assetUrl";
 
 const skillLabels = [
   { text: "SEO", bg: "#1a0e08", fg: "#ffb060" },
@@ -231,7 +232,7 @@ const TechStack = () => {
           ))}
         </Physics>
         <Environment
-          files="/models/char_enviorment.hdr"
+          files={assetUrl("models/char_enviorment.hdr")}
           environmentIntensity={0.5}
           environmentRotation={[0, 4, 2]}
         />

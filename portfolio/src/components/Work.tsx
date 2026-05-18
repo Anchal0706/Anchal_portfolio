@@ -2,34 +2,35 @@ import { useState, useCallback } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
+import { assetUrl } from "../utils/assetUrl";
 
 const projects = [
   {
     title: "LLM Output Evaluation",
     category: "Outlier AI · RLHF / SFT",
     tools: "Output review, structured feedback, response ranking, accuracy validation",
-    image: "/images/work-llm.svg",
+    image: assetUrl("images/work-llm.svg"),
     link: "mailto:anchalmishra028@gmail.com?subject=LLM%20Evaluation%20Work",
   },
   {
     title: "SEO Content Strategy",
     category: "Qorvatech · Content Marketer",
     tools: "SEO writing, intent mapping, hierarchy, editorial structure",
-    image: "/images/work-seo.svg",
+    image: assetUrl("images/work-seo.svg"),
     link: "mailto:anchalmishra028@gmail.com?subject=SEO%20Strategy%20Work",
   },
   {
     title: "AI Workshops for Schools",
     category: "SDAI · Content Analyst",
     tools: "Workshop design, stakeholder communication, student engagement",
-    image: "/images/work-workshops.svg",
+    image: assetUrl("images/work-workshops.svg"),
     link: "mailto:anchalmishra028@gmail.com?subject=AI%20Workshops",
   },
   {
     title: "Editorial & Long-form",
     category: "C-Incognito & Earlier",
     tools: "Research-led blogs, summaries, audience retention, clarity",
-    image: "/images/work-editorial.svg",
+    image: assetUrl("images/work-editorial.svg"),
     link: "mailto:anchalmishra028@gmail.com?subject=Editorial%20Samples",
   },
 ];
