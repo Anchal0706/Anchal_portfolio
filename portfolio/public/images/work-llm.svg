@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <radialGradient id="g1" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#ffcf80"/>
+      <stop offset="60%" stop-color="#ff9040" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0a0604" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="#0a0604"/>
+  <rect width="800" height="600" fill="url(#g1)"/>
+  <circle cx="400" cy="300" r="60" fill="#ffcf80"/>
+  <circle cx="400" cy="300" r="160" fill="none" stroke="#6cc8ff" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="400" cy="300" r="240" fill="none" stroke="#a6d8ff" stroke-width="1" opacity="0.35"/>
+  <g fill="#6cc8ff">
+    <circle cx="240" cy="300" r="6"/>
+    <circle cx="560" cy="300" r="6"/>
+    <circle cx="400" cy="140" r="6"/>
+    <circle cx="400" cy="460" r="6"/>
+    <circle cx="290" cy="190" r="5"/>
+    <circle cx="510" cy="410" r="5"/>
+  </g>
+  <g font-family="Georgia, serif" fill="#f5e5cc" opacity="0.85">
+    <text x="60" y="80" font-size="20" font-style="italic" letter-spacing="2">— LLM EVALUATION</text>
+    <text x="60" y="540" font-size="34" font-style="italic">RLHF · SFT · structured feedback</text>
+  </g>
+</svg>
