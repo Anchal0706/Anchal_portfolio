@@ -1,0 +1,199 @@
+<style>
+  .strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+  @media (max-width: 1100px) { .strip { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px)  { .strip { grid-template-columns: repeat(2, 1fr); } }
+
+  .ch {
+    border: 1px solid var(--border, #2a2a2a);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface, #111);
+    cursor: pointer;
+    transition: transform .25s, border-color .25s, box-shadow .25s;
+  }
+  .ch:hover { transform: translateY(-3px); border-color: #fc9; box-shadow: 0 10px 30px rgba(255,200,140,.15); }
+  .ch-vis { height: 160px; position: relative; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .ch-body { padding: 14px 14px 16px; }
+  .ch-num { font-family: ui-monospace, monospace; font-size: 10px; letter-spacing: .2em; color: rgba(255,200,140,.65); margin-bottom: 4px; }
+  .ch h3 { margin: 0 0 6px; font-family: Georgia, serif; font-size: 16px; line-height: 1.2; color: #fff8e5; }
+  .ch p { margin: 0 0 8px; font-size: 11.5px; line-height: 1.5; opacity: .75; color: #f5e5cc; }
+  .ch .yr { font-family: ui-monospace, monospace; font-size: 9.5px; opacity: .55; letter-spacing: .12em; color: #fc9; }
+  .ch-footer { font-size: 10.5px; opacity: .65; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,.08); margin-top: 8px; line-height: 1.5; }
+  .ch-footer strong { color: #fc9; opacity: .9; }
+
+  /* shared chiaroscuro base */
+  .ch-vis { color: #f5e5cc; }
+  .ch-vis::after { content:''; position:absolute; inset:0; background-image: radial-gradient(rgba(255,255,255,.4) 1px, transparent 1px); background-size: 3px 3px; opacity: .08; }
+
+  /* 1 — Origins · paper + lamp */
+  .v1 { background: linear-gradient(135deg, #2a1810 0%, #1a0e08 70%, #0a0604 100%); }
+  .v1 .lamp { position: absolute; top: 30%; left: 30%;
+    width: 0; height: 0;
+    border-left: 90px solid transparent; border-right: 90px solid transparent; border-top: 110px solid rgba(255,180,80,.25);
+    filter: blur(10px);
+  }
+  .v1 .ink { position: absolute; bottom: 12px; left: 14px; font-family: 'Times New Roman', serif; font-style: italic; font-size: 22px; color: #f5e5cc; opacity: .85; }
+  .v1 .nib { position: absolute; bottom: 22%; right: 16%; width: 36px; height: 4px; background: linear-gradient(90deg, #f5e5cc, transparent); transform: rotate(-12deg); }
+
+  /* 2 — Newsroom · SEO grid + headlines */
+  .v2 { background: linear-gradient(135deg, #1a1408 0%, #0a0604 100%); }
+  .v2 .h1 { position:absolute; top:18%; left:8%; right:8%; height: 18px; background: linear-gradient(90deg, #ffb060, transparent); opacity: .85; }
+  .v2 .h2 { position:absolute; top:36%; left:8%; width: 60%; height: 4px; background: rgba(245,229,204,.6); }
+  .v2 .h3 { position:absolute; top:46%; left:8%; width: 80%; height: 4px; background: rgba(245,229,204,.4); }
+  .v2 .h4 { position:absolute; top:56%; left:8%; width: 50%; height: 4px; background: rgba(245,229,204,.4); }
+  .v2 .seo { position: absolute; bottom:12%; right: 14px; font-family: ui-monospace, monospace; font-size: 9.5px; color: #6cc8ff; }
+
+  /* 3 — Lab · feedback grid + glow node */
+  .v3 { background: radial-gradient(ellipse at 60% 50%, #1a1810 0%, #0a0a14 70%); }
+  .v3 .core { position: absolute; top: 40%; left: 50%; transform: translate(-50%,-50%); width: 36px; height: 36px; border-radius: 50%; background: radial-gradient(circle, #ffcf80, #ff9040); box-shadow: 0 0 30px #ffb060; }
+  .v3 .ring { position: absolute; top: 40%; left: 50%; transform: translate(-50%,-50%); width: 100px; height: 100px; border: 1px solid rgba(108,200,255,.4); border-radius: 50%; }
+  .v3 .ring2 { width: 140px; height: 140px; opacity: .6; }
+  .v3 .node { position:absolute; width: 5px; height: 5px; background: #6cc8ff; border-radius: 50%; box-shadow: 0 0 6px #6cc8ff; }
+
+  /* 4 — Classroom · podium + chairs */
+  .v4 { background: linear-gradient(180deg, #2a1810 0%, #1a0e08 70%, #0a0604 100%); }
+  .v4 .stage { position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%) perspective(400px) rotateX(35deg); width: 120px; height: 24px; background: linear-gradient(90deg, #c08850, #5a3820); border-radius: 3px; box-shadow: 0 12px 18px rgba(0,0,0,.5); }
+  .v4 .pod { position: absolute; bottom: 32%; left: 50%; transform: translateX(-50%); width: 18px; height: 26px; background: #5a3820; border-radius: 3px 3px 0 0; }
+  .v4 .seats { position:absolute; bottom: 6%; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
+  .v4 .seats div { width: 8px; height: 12px; background: rgba(245,229,204,.25); border-radius: 2px; }
+
+  /* 5 — Frontier · horizon + scaffolding */
+  .v5 { background: linear-gradient(180deg, #1a1428 0%, #0a0814 60%, #050308 100%); }
+  .v5 .hor { position: absolute; bottom: 38%; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #fc9, transparent); }
+  .v5 .scaff {
+    position:absolute; bottom: 12%; left: 30%; width: 40%; height: 50px;
+    background-image:
+      linear-gradient(rgba(108,200,255,.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108,200,255,.4) 1px, transparent 1px);
+    background-size: 12px 12px;
+    transform: perspective(300px) rotateX(40deg);
+  }
+  .v5 .star { position:absolute; width: 2px; height: 2px; background: #fc9; border-radius: 50%; }
+
+  /* 6 — Open floor · prompt centerpiece */
+  .v6 { background: radial-gradient(ellipse at 50% 50%, #2a1810 0%, #0a0604 80%); }
+  .v6 .prompt { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    border: 1px solid rgba(255,200,140,.5); border-radius: 30px;
+    padding: 12px 22px; font-family: ui-monospace, monospace; font-size: 13px;
+    color: #fc9; background: rgba(0,0,0,.5); backdrop-filter: blur(4px);
+    box-shadow: 0 0 30px rgba(255,200,140,.2);
+    white-space: nowrap;
+  }
+  .v6 .cur { display: inline-block; width: 5px; height: 12px; background: #fc9; margin-left: 3px; vertical-align: -1px; animation: bk 1s steps(2) infinite; }
+  @keyframes bk { 50% { opacity: 0; } }
+</style>
+
+<h2>The 6-chapter spine</h2>
+<p class="subtitle">Drafted from her bio. Click any to flag for change, or just tell me in the terminal what to swap / reorder / rename.</p>
+
+<div class="cards strip" data-multiselect>
+
+  <div class="card ch" data-choice="ch1" onclick="toggleSelect(this)">
+    <div class="ch-vis v1">
+      <div class="lamp"></div>
+      <div class="nib"></div>
+      <div class="ink">Origins.</div>
+    </div>
+    <div class="ch-body">
+      <div class="ch-num">CH · 01</div>
+      <h3>Origins</h3>
+      <p>The desk, the lamp, the page. College debates, the anthology, the magazine. Where her ear for language was tuned.</p>
+      <div class="yr">— pre 2022</div>
+      <div class="ch-footer"><strong>Scene:</strong> warm interior · paper, ink, lamp-glow · serif type carved in shadow</div>
+    </div>
+  </div>
+
+  <div class="card ch" data-choice="ch2" onclick="toggleSelect(this)">
+    <div class="ch-vis v2">
+      <div class="h1"></div>
+      <div class="h2"></div>
+      <div class="h3"></div>
+      <div class="h4"></div>
+      <div class="seo">[ keyword.intent.cluster ]</div>
+    </div>
+    <div class="ch-body">
+      <div class="ch-num">CH · 02</div>
+      <h3>The Newsroom</h3>
+      <p>C-Incognito and Qorvatech. Headlines, hierarchy, search. Writing for both the human eye and the algorithm.</p>
+      <div class="yr">— 2022 · 2024</div>
+      <div class="ch-footer"><strong>Scene:</strong> hot-metal letterpress meets blue terminal type — old craft + SEO grid</div>
+    </div>
+  </div>
+
+  <div class="card ch" data-choice="ch3" onclick="toggleSelect(this)">
+    <div class="ch-vis v3">
+      <div class="ring ring2"></div>
+      <div class="ring"></div>
+      <div class="core"></div>
+      <div class="node" style="top:25%;left:18%"></div>
+      <div class="node" style="top:75%;left:80%"></div>
+      <div class="node" style="top:30%;right:14%"></div>
+      <div class="node" style="bottom:15%;left:25%"></div>
+    </div>
+    <div class="ch-body">
+      <div class="ch-num">CH · 03</div>
+      <h3>The Lab</h3>
+      <p>Outlier AI. RLHF, SFT, output evaluation. Teaching machines to be more accurate, more useful, more honest.</p>
+      <div class="yr">— 2024 · ongoing</div>
+      <div class="ch-footer"><strong>Scene:</strong> warm core, cool orbits — feedback signals weaving through a glowing field</div>
+    </div>
+  </div>
+
+  <div class="card ch" data-choice="ch4" onclick="toggleSelect(this)">
+    <div class="ch-vis v4">
+      <div class="stage"></div>
+      <div class="pod"></div>
+      <div class="seats">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+    </div>
+    <div class="ch-body">
+      <div class="ch-num">CH · 04</div>
+      <h3>The Classroom</h3>
+      <p>SDAI. Workshops with schools and principals. Translating AI — what it can do, what it shouldn't — for real students.</p>
+      <div class="yr">— 2026 · present</div>
+      <div class="ch-footer"><strong>Scene:</strong> a wooden auditorium, a single lit podium, rows of empty velvet seats</div>
+    </div>
+  </div>
+
+  <div class="card ch" data-choice="ch5" onclick="toggleSelect(this)">
+    <div class="ch-vis v5">
+      <div class="hor"></div>
+      <div class="scaff"></div>
+      <div class="star" style="top:18%;left:20%"></div>
+      <div class="star" style="top:8%;left:65%"></div>
+      <div class="star" style="top:22%;right:18%"></div>
+      <div class="star" style="top:30%;left:48%"></div>
+    </div>
+    <div class="ch-body">
+      <div class="ch-num">CH · 05</div>
+      <h3>The Frontier</h3>
+      <p>What she's building toward: prompt evaluation frameworks, LLM output quality, the bridge between search and AI-generated answers.</p>
+      <div class="yr">— next</div>
+      <div class="ch-footer"><strong>Scene:</strong> dawn horizon, half-built scaffolding, a future being framed</div>
+    </div>
+  </div>
+
+  <div class="card ch" data-choice="ch6" onclick="toggleSelect(this)">
+    <div class="ch-vis v6">
+      <div class="prompt">› ask anchal anything<span class="cur"></span></div>
+    </div>
+    <div class="ch-body">
+      <div class="ch-num">CH · 06</div>
+      <h3>Open Floor</h3>
+      <p>The finale. Camera lands. Lamp on. The chat opens — full RAG over everything, with citations back to chapters 1–5. Always reachable from any earlier chapter via the corner button.</p>
+      <div class="yr">— now</div>
+      <div class="ch-footer"><strong>Scene:</strong> minimal stage, single warm light, the prompt waiting</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:26px; padding:16px 20px; border:1px dashed var(--border,#2a2a2a); border-radius:10px; font-size:13px; line-height:1.6; opacity:.85">
+  <strong style="color:#fc9">If anything's off, just tell me:</strong> <em>"swap 4 with X"</em>, <em>"merge 1 and 2"</em>, <em>"add a chapter on My Favorite Person anthology"</em>, <em>"change names to be more poetic / more direct"</em>, etc. Otherwise just say <em>"locked"</em> and I'll move to corpus + tech.
+</div>

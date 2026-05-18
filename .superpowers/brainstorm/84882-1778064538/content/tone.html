@@ -1,0 +1,247 @@
+<style>
+  .tone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 26px; }
+  @media (max-width: 980px) { .tone-grid { grid-template-columns: 1fr; } }
+
+  .tone {
+    border: 1px solid var(--border, #2a2a2a);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--surface, #111);
+    transition: transform .25s, border-color .25s, box-shadow .25s;
+  }
+  .tone:hover { transform: translateY(-3px); border-color: #6cf; box-shadow: 0 14px 40px rgba(108,200,255,.12); }
+
+  .tv { height: 320px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border, #2a2a2a); }
+  .tb { padding: 18px 20px 22px; }
+  .tone .lbl { font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; opacity: .65; margin-bottom: 6px; }
+  .tone h3 { margin: 0 0 8px; font-size: 18px; }
+  .tone p { margin: 0 0 10px; font-size: 13px; line-height: 1.55; opacity: .85; }
+  .palette { display: flex; gap: 6px; margin: 10px 0; }
+  .swatch { width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(255,255,255,.1); }
+  .specs { font-size: 11.5px; line-height: 1.6; opacity: .75; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,.08); }
+  .specs strong { opacity: .9; }
+
+  /* shared chrome */
+  .chip { position: absolute; top: 14px; left: 14px;
+    font-family: ui-monospace, monospace; font-size: 10px;
+    padding: 4px 8px; border-radius: 12px;
+    letter-spacing: .12em;
+  }
+  .chap { position: absolute; top: 14px; right: 14px;
+    font-family: ui-monospace, monospace; font-size: 10px;
+    letter-spacing: .15em;
+  }
+  .ttl { position: absolute; left: 22px; bottom: 78px;
+    font-size: 22px; line-height: 1.1; letter-spacing: -.02em;
+  }
+  .sub { position: absolute; left: 22px; bottom: 56px; font-size: 11px; opacity: .7; }
+  .pmt { position: absolute; left: 22px; right: 22px; bottom: 18px;
+    border-radius: 22px; padding: 7px 14px;
+    font-family: ui-monospace, monospace; font-size: 10.5px;
+    backdrop-filter: blur(6px);
+  }
+  .grain { position:absolute; inset:0; opacity:.1; background-image: radial-gradient(rgba(255,255,255,.5) 1px, transparent 1px); background-size: 3px 3px; pointer-events: none; }
+
+  /* ============== T1: COOL · AI-LAB ============== */
+  .t1 {
+    background: linear-gradient(180deg, #0a0e1a 0%, #050810 60%, #02030a 100%);
+    color: #e8eef8;
+  }
+  .t1 .field {
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 70% 30%, rgba(108,200,255,.22), transparent 45%),
+      radial-gradient(circle at 30% 70%, rgba(180,120,255,.18), transparent 45%);
+    filter: blur(20px);
+  }
+  .t1 .grid {
+    position:absolute; inset: 30% 0 0;
+    background-image:
+      linear-gradient(rgba(108,200,255,.18) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108,200,255,.18) 1px, transparent 1px);
+    background-size: 30px 30px;
+    transform: perspective(380px) rotateX(60deg) translateY(20px) scale(1.6);
+    transform-origin: bottom;
+    mask-image: linear-gradient(180deg, transparent 0%, black 70%);
+  }
+  .t1 .chip { background: rgba(108,200,255,.12); color: #6cf; border: 1px solid rgba(108,200,255,.3); }
+  .t1 .chap { color: rgba(108,200,255,.6); }
+  .t1 .ttl { font-family: 'Helvetica Neue', sans-serif; font-weight: 800; color: #fff; }
+  .t1 .sub { color: rgba(220,235,255,.6); font-family: ui-monospace, monospace; letter-spacing: .04em; }
+  .t1 .pmt { background: rgba(0,0,0,.55); color: #6cf; border: 1px solid rgba(108,200,255,.4); }
+
+  /* ============== T2: WARM · EDITORIAL ============== */
+  .t2 {
+    background: linear-gradient(180deg, #efe6d4 0%, #e0d2b6 60%, #c9b78c 100%);
+    color: #2a1f10;
+  }
+  .t2::before {
+    content:''; position:absolute; inset:0;
+    background-image:
+      radial-gradient(rgba(60,40,20,.06) 1px, transparent 1px),
+      radial-gradient(rgba(60,40,20,.04) 1px, transparent 1px);
+    background-size: 4px 4px, 7px 7px;
+    background-position: 0 0, 2px 2px;
+  }
+  .t2 .horizon { position:absolute; bottom:32%; left:0; right:0; height:1px; background: linear-gradient(90deg, transparent, rgba(120,80,40,.4), transparent); }
+  .t2 .sun { position:absolute; bottom:28%; left:62%; transform:translate(-50%,40%); width:80px;height:80px;border-radius:50%;background:radial-gradient(circle, #fff5e0, #ddc080 70%, transparent);filter:blur(2px);}
+  .t2 .ink {
+    position:absolute; bottom: 0; left: 0; right: 0; height: 32%;
+    background: linear-gradient(180deg, #6a4820 0%, #3a2810 100%);
+    clip-path: polygon(0 50%, 8% 40%, 18% 55%, 32% 30%, 44% 45%, 60% 25%, 74% 40%, 86% 28%, 100% 45%, 100% 100%, 0 100%);
+  }
+  .t2 .chip { background: rgba(60,40,20,.1); color: #6a4820; border: 1px solid rgba(60,40,20,.2); }
+  .t2 .chap { color: rgba(60,40,20,.6); }
+  .t2 .ttl { font-family: 'Times New Roman', serif; font-style: italic; color: #2a1f10; }
+  .t2 .sub { color: rgba(60,40,20,.7); font-family: 'Times New Roman', serif; }
+  .t2 .pmt { background: rgba(255,250,240,.85); color: #6a4820; border: 1px solid rgba(60,40,20,.25); font-family: 'Times New Roman', serif; font-style: italic; font-size: 12px; }
+
+  /* ============== T3: CHIAROSCURO · HYBRID ============== */
+  .t3 {
+    background: linear-gradient(180deg, #2a1810 0%, #1a0e08 60%, #0a0604 100%);
+    color: #f5e5cc;
+  }
+  .t3 .light {
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 40% 35%, rgba(255,200,120,.25), transparent 40%),
+      radial-gradient(circle at 75% 75%, rgba(255,140,80,.15), transparent 40%);
+    filter: blur(16px);
+  }
+  .t3 .desk {
+    position:absolute; bottom: 20%; left: 50%; transform: translateX(-50%) perspective(400px) rotateX(28deg);
+    width: 70%; height: 4px; background: linear-gradient(90deg, transparent, #c08850, transparent);
+    box-shadow: 0 18px 40px rgba(0,0,0,.5);
+  }
+  .t3 .glow {
+    position: absolute; bottom: 36%; left: 70%;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: #ffcf80;
+    box-shadow: 0 0 30px #ffb060, 0 0 60px rgba(255,170,80,.5);
+  }
+  .t3 .pages {
+    position: absolute; bottom: 22%; left: 18%;
+    width: 80px; height: 60px;
+    background: #f5e5cc;
+    transform: rotate(-4deg);
+    box-shadow: 0 6px 14px rgba(0,0,0,.6);
+  }
+  .t3 .pages::after {
+    content:''; position:absolute; inset: 6px;
+    background: repeating-linear-gradient(180deg, rgba(60,40,20,.18) 0 1px, transparent 1px 5px);
+  }
+  .t3 .chip { background: rgba(255,200,120,.12); color: #fc9; border: 1px solid rgba(255,200,120,.3); }
+  .t3 .chap { color: rgba(255,200,120,.6); }
+  .t3 .ttl { font-family: Georgia, serif; color: #fff8e5; }
+  .t3 .sub { color: rgba(245,229,204,.7); font-family: ui-monospace, monospace; letter-spacing: .04em; font-size: 10.5px; }
+  .t3 .pmt { background: rgba(0,0,0,.65); color: #fc9; border: 1px solid rgba(255,200,120,.35); }
+
+</style>
+
+<h2>Which tone — same architecture, three different worlds</h2>
+<p class="subtitle">Each preview is the SAME chapter (RLHF) rendered in a different visual language. Pick the world Anchal lives in.</p>
+
+<div class="cards tone-grid" data-multiselect>
+
+  <!-- T1 -->
+  <div class="card tone" data-choice="cool" onclick="toggleSelect(this)">
+    <div class="tv t1">
+      <div class="field"></div>
+      <div class="grid"></div>
+      <div class="grain"></div>
+      <div class="chip">● PORTFOLIO.SIGNAL</div>
+      <div class="chap">CH · 03 / 06</div>
+      <div class="ttl">She taught the<br/>machines.</div>
+      <div class="sub">// chapter three — RLHF</div>
+      <div class="pmt">› ask about her LLM evaluation work_</div>
+    </div>
+    <div class="tb">
+      <div class="lbl">T1 · Cool · AI-Lab</div>
+      <h3>Cinematic AI Research</h3>
+      <p>Dark navy/violet, neon-blue HUD, terminal-monospace, futuristic glass type. Think NEAR Protocol, Anthropic press, OpenAI keynote.</p>
+      <div class="palette">
+        <div class="swatch" style="background:#050810"></div>
+        <div class="swatch" style="background:#0a1428"></div>
+        <div class="swatch" style="background:#6cc8ff"></div>
+        <div class="swatch" style="background:#b478ff"></div>
+        <div class="swatch" style="background:#e8eef8"></div>
+      </div>
+      <div class="specs">
+        <strong>Type:</strong> Helvetica Neue + JetBrains Mono<br>
+        <strong>Wow:</strong> highest immediate "this is the future"<br>
+        <strong>Risk:</strong> generic AI-startup aesthetic; many sites do this
+      </div>
+    </div>
+  </div>
+
+  <!-- T2 -->
+  <div class="card tone" data-choice="warm" onclick="toggleSelect(this)">
+    <div class="tv t2">
+      <div class="horizon"></div>
+      <div class="sun"></div>
+      <div class="ink"></div>
+      <div class="grain"></div>
+      <div class="chip">❦ ANCHAL — A LIFE IN LANGUAGE</div>
+      <div class="chap">III · OF SIX</div>
+      <div class="ttl">She taught the<br/>machines.</div>
+      <div class="sub">— a chapter in three voices —</div>
+      <div class="pmt">ask about this chapter — in her own words</div>
+    </div>
+    <div class="tb">
+      <div class="lbl">T2 · Warm · Editorial</div>
+      <h3>Literary &amp; Print</h3>
+      <p>Cream/sepia, ink-river silhouettes, italic serif, dust grain. Think Hermès digital, The New Yorker, Apple Type Specimens.</p>
+      <div class="palette">
+        <div class="swatch" style="background:#efe6d4"></div>
+        <div class="swatch" style="background:#c9b78c"></div>
+        <div class="swatch" style="background:#6a4820"></div>
+        <div class="swatch" style="background:#2a1f10"></div>
+        <div class="swatch" style="background:#b03a2e"></div>
+      </div>
+      <div class="specs">
+        <strong>Type:</strong> Times-Italic display + Söhne body<br>
+        <strong>Wow:</strong> rare on the web; AI portfolio in this skin = unmistakable<br>
+        <strong>Risk:</strong> if 3D is too subtle, "wow" gets quiet
+      </div>
+    </div>
+  </div>
+
+  <!-- T3 -->
+  <div class="card tone" data-choice="chiaroscuro" onclick="toggleSelect(this)">
+    <div class="tv t3">
+      <div class="light"></div>
+      <div class="desk"></div>
+      <div class="glow"></div>
+      <div class="pages"></div>
+      <div class="grain"></div>
+      <div class="chip">◐ ANCHAL — INTERIOR / EXTERIOR</div>
+      <div class="chap">CH · 03 · RLHF</div>
+      <div class="ttl">She taught the<br/>machines.</div>
+      <div class="sub">// chapter three / a desk, a lamp, a feedback</div>
+      <div class="pmt">› ask about this chapter</div>
+    </div>
+    <div class="tb">
+      <div class="lbl">T3 · Chiaroscuro · Hybrid</div>
+      <h3>Warm Surfaces, Cool Logic</h3>
+      <p>Dark amber/oak interiors lit by a single warm lamp; paper, leather, wood textures — but with cool blue HUD elements. Old-world surfaces, modern brain. The contrarian premium look.</p>
+      <div class="palette">
+        <div class="swatch" style="background:#1a0e08"></div>
+        <div class="swatch" style="background:#5a3820"></div>
+        <div class="swatch" style="background:#ffb060"></div>
+        <div class="swatch" style="background:#f5e5cc"></div>
+        <div class="swatch" style="background:#6cc8ff"></div>
+      </div>
+      <div class="specs">
+        <strong>Type:</strong> GT Sectra display + ui-mono accents<br>
+        <strong>Wow:</strong> distinctive, defensible, "expensive" look<br>
+        <strong>Risk:</strong> hardest to nail — small craft mistakes show fast
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:26px; padding:16px 20px; border:1px dashed var(--border,#2a2a2a); border-radius:10px; font-size:13px; line-height:1.6; opacity:.85">
+  <strong style="color:#6cf">My recommendation: T3 (Chiaroscuro)</strong>. T1 is correct but crowded — every AI startup landing page already lives there. T2 is rare but risks the "3D" feeling sleepy. T3 is what almost no one ships: warm tactile surfaces (paper, oak, lamp-glow) with precise cool logic on top — visually says <em>"I work where editorial craft meets AI thinking"</em>, which is exactly her positioning.
+</div>

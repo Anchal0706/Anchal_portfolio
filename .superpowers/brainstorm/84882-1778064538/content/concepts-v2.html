@@ -1,0 +1,401 @@
+<style>
+  .v2-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-top: 26px;
+  }
+  .v2-card {
+    border: 1px solid var(--border, #2a2a2a);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    background: var(--surface, #111);
+    display: grid;
+    grid-template-columns: 380px 1fr;
+  }
+  @media (max-width: 800px) { .v2-card { grid-template-columns: 1fr; } }
+  .v2-card:hover {
+    transform: translateY(-3px);
+    border-color: #6cf;
+    box-shadow: 0 18px 50px rgba(108,200,255,.15);
+  }
+  .v2-preview {
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid var(--border, #2a2a2a);
+  }
+  @media (max-width: 800px) { .v2-preview { border-right: none; border-bottom: 1px solid var(--border, #2a2a2a); } }
+  .v2-body { padding: 22px 26px; }
+  .v2-rank {
+    font-family: 'SF Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    opacity: .55;
+    margin-bottom: 6px;
+  }
+  .v2-card h3 { margin: 0 0 8px; font-size: 22px; line-height: 1.2; }
+  .v2-tag {
+    display: inline-block; padding: 3px 8px; border-radius: 4px;
+    background: rgba(108,200,255,.1); color: #6cf;
+    font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+    margin: 0 6px 8px 0;
+  }
+  .v2-tag.warm { background: rgba(255,180,80,.1); color: #fc9; }
+  .v2-tag.exotic { background: rgba(200,100,255,.12); color: #d9b; }
+  .v2-card p { margin: 0 0 12px; font-size: 14px; line-height: 1.55; opacity: .88; }
+  .v2-meta {
+    display: grid; grid-template-columns: 88px 1fr; gap: 4px 12px;
+    font-size: 12.2px; line-height: 1.5; margin-top: 10px;
+    padding-top: 12px; border-top: 1px dashed rgba(255,255,255,.08);
+  }
+  .v2-meta dt { opacity: .5; text-transform: uppercase; letter-spacing: .1em; font-size: 10.5px; }
+  .v2-meta dd { margin: 0; opacity: .9; }
+  .v2-meta a { color: #6cf; text-decoration: none; border-bottom: 1px dotted rgba(108,200,255,.4); }
+
+  /* ==================== Previews ==================== */
+
+  /* 1 — Self-Reading (RAG conversational portfolio) */
+  .rag {
+    background: radial-gradient(circle at 50% 50%, #0a0a18 0%, #000 80%);
+    overflow: hidden;
+  }
+  .rag .field {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(108,200,255,.18), transparent 40%),
+      radial-gradient(circle at 70% 70%, rgba(180,120,255,.15), transparent 40%);
+    filter: blur(20px);
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0% { transform: translate(0,0); }
+    100% { transform: translate(20px,-15px); }
+  }
+  .rag .frag {
+    position: absolute;
+    font-family: 'Times New Roman', serif;
+    font-size: 11px; line-height: 1.3;
+    color: rgba(220,235,255,.75);
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(108,200,255,.25);
+    padding: 6px 9px; border-radius: 4px;
+    backdrop-filter: blur(4px);
+  }
+  .rag .f1 { top: 22%; left: 8%; transform: rotate(-6deg); }
+  .rag .f2 { top: 14%; right: 12%; transform: rotate(4deg); }
+  .rag .f3 { bottom: 30%; left: 22%; transform: rotate(2deg); }
+  .rag .f4 { bottom: 14%; right: 18%; transform: rotate(-3deg); }
+  .rag .prompt {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%,-50%);
+    font-family: ui-monospace, monospace; font-size: 13px;
+    color: #6cf; text-align: center;
+    background: rgba(0,0,0,.5);
+    padding: 10px 16px; border-radius: 28px;
+    border: 1px solid rgba(108,200,255,.4);
+    box-shadow: 0 0 30px rgba(108,200,255,.25);
+    white-space: nowrap;
+  }
+  .rag .prompt .blink { display:inline-block;width:6px;height:13px;background:#6cf;margin-left:3px;animation:blk 1s steps(2) infinite;vertical-align:-2px; }
+  @keyframes blk { 50% { opacity: 0; } }
+
+  /* 2 — Gaussian Splat Studio */
+  .splat {
+    background: linear-gradient(180deg, #1a1410 0%, #0a0805 100%);
+    overflow: hidden;
+  }
+  .splat .dot {
+    position: absolute; border-radius: 50%;
+    filter: blur(.5px);
+  }
+  .splat .annot {
+    position: absolute; bottom: 18px; left: 22px;
+    color: #fc9; font-size: 11px;
+    font-family: ui-monospace, monospace;
+    letter-spacing: .04em;
+  }
+  .splat .annot::before { content: '◇ '; opacity: .7; }
+  .splat .reticle {
+    position: absolute; top: 50%; left: 60%;
+    width: 12px; height: 12px; border: 1px solid #fc9;
+    transform: translate(-50%,-50%); border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(255,200,140,.1);
+  }
+
+  /* 3 — Pendragon-style Cinematic */
+  .cine {
+    background: linear-gradient(180deg, #2a1a30 0%, #0a0814 60%, #050308 100%);
+    overflow: hidden;
+  }
+  .cine .horizon {
+    position: absolute; bottom: 38%; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,180,200,.6), transparent);
+  }
+  .cine .sun {
+    position: absolute; bottom: 38%; left: 50%; transform: translate(-50%,50%);
+    width: 90px; height: 90px; border-radius: 50%;
+    background: radial-gradient(circle, #ffb088 0%, #c8568f 60%, transparent 100%);
+    filter: blur(2px);
+  }
+  .cine .silhouette {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 38%;
+    background: linear-gradient(180deg, #14081a 0%, #060410 100%);
+    clip-path: polygon(0 60%, 8% 50%, 16% 65%, 26% 40%, 36% 55%, 48% 30%, 60% 50%, 72% 35%, 84% 55%, 92% 45%, 100% 60%, 100% 100%, 0 100%);
+  }
+  .cine .grain { position:absolute; inset:0; opacity:.12;
+    background-image: radial-gradient(rgba(255,255,255,.4) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+  .cine .chapter {
+    position: absolute; bottom: 16px; left: 22px;
+    font-family: Georgia, serif; font-style: italic;
+    color: #fcd; font-size: 13px; opacity: .85;
+  }
+  .cine .ts {
+    position: absolute; top: 16px; right: 22px;
+    font-family: ui-monospace, monospace; font-size: 10.5px;
+    color: rgba(255,200,220,.6); letter-spacing: .15em;
+  }
+
+  /* 4 — Type-City (WebGPU procedural) */
+  .city {
+    background: linear-gradient(180deg, #050a14 0%, #0a1428 100%);
+    overflow: hidden;
+  }
+  .city .tower {
+    position: absolute; bottom: 0;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 900; line-height: .85;
+    text-orientation: upright; writing-mode: vertical-rl;
+    letter-spacing: -2px;
+    color: #6cf; opacity: .9;
+    text-shadow: 0 0 8px rgba(108,200,255,.5);
+  }
+  .city .t1 { left: 6%; font-size: 28px; }
+  .city .t2 { left: 22%; font-size: 44px; color: #d9b; text-shadow: 0 0 8px rgba(220,150,200,.5); }
+  .city .t3 { left: 40%; font-size: 36px; }
+  .city .t4 { left: 56%; font-size: 52px; color: #fc9; text-shadow: 0 0 8px rgba(255,200,150,.5); }
+  .city .t5 { left: 74%; font-size: 30px; }
+  .city .t6 { left: 88%; font-size: 40px; color: #d9b; text-shadow: 0 0 8px rgba(220,150,200,.5); }
+  .city .fog {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(180deg, transparent, rgba(10,20,40,.85));
+  }
+  .city .fps {
+    position: absolute; top: 14px; right: 18px;
+    font-family: ui-monospace, monospace;
+    color: #6cf; font-size: 11px; opacity: .8;
+  }
+
+  /* 5 — Reading Room (tactile rebellion) */
+  .room {
+    background:
+      radial-gradient(ellipse at 30% 30%, #f5e9d0 0%, transparent 60%),
+      linear-gradient(135deg, #ebd9b8 0%, #c9a875 100%);
+    color: #2a1f10;
+    overflow: hidden;
+  }
+  .room::before {
+    content:''; position:absolute; inset:0;
+    background-image:
+      radial-gradient(rgba(60,40,20,.06) 1px, transparent 1px),
+      radial-gradient(rgba(60,40,20,.04) 1px, transparent 1px);
+    background-size: 4px 4px, 7px 7px;
+    background-position: 0 0, 2px 2px;
+  }
+  .room .paper {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%,-50%) rotate(-3deg);
+    width: 60%; height: 70%;
+    background: #fffdf6;
+    box-shadow: 0 18px 40px rgba(60,40,20,.25), 0 2px 4px rgba(60,40,20,.1);
+    padding: 22px;
+    font-family: Georgia, serif;
+  }
+  .room .paper .h {
+    font-size: 18px; font-style: italic;
+    border-bottom: 1px solid rgba(60,40,20,.2);
+    padding-bottom: 6px; margin-bottom: 8px;
+  }
+  .room .paper .ln {
+    height: 4px; background: rgba(60,40,20,.1);
+    margin: 6px 0; border-radius: 2px;
+  }
+  .room .paper .ln.s { width: 70%; }
+  .room .paper .ln.m { width: 90%; }
+  .room .seal {
+    position: absolute; bottom: 14px; right: 16px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #b03a2e; opacity: .85;
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
+  }
+
+  .closing {
+    margin-top: 30px;
+    padding: 16px 20px;
+    border: 1px dashed var(--border, #2a2a2a);
+    border-radius: 10px;
+    font-size: 13px; line-height: 1.6; opacity: .85;
+  }
+  .closing strong { color: #6cf; }
+</style>
+
+<h2>v2 — bleeding-edge directions, each tied to a 2026 award-winning reference</h2>
+<p class="subtitle">These pull from Awwwards SOTY-tier work, WebGPU, RAG, and Gaussian Splatting. Not "another R3F portfolio."</p>
+
+<div class="cards v2-grid" data-multiselect>
+
+  <!-- 1 -->
+  <div class="card v2-card" data-choice="rag" onclick="toggleSelect(this)">
+    <div class="v2-preview rag">
+      <div class="field"></div>
+      <div class="frag f1">"Content as structure, intent, logic..."</div>
+      <div class="frag f2">RLHF · SFT · output evaluation</div>
+      <div class="frag f3">Qorvatech, 2023 — SEO architecture</div>
+      <div class="frag f4">"AI depends on human judgement"</div>
+      <div class="prompt">ask anchal anything<span class="blink"></span></div>
+    </div>
+    <div class="v2-body">
+      <div class="v2-rank">01 · MOST DEFENSIBLE FOR HER BRAND</div>
+      <h3>The Self-Reading Portfolio</h3>
+      <span class="v2-tag exotic">RAG · Agentic</span>
+      <span class="v2-tag exotic">WebGPU shader field</span>
+      <span class="v2-tag">2026 hybrid AI+UI trend</span>
+      <p>The portfolio <em>IS</em> an LLM trained on her own writing. You don't navigate sections — you ask. "Show me her LLM-evaluation work" pulls real fragments of her writing into a 3D semantic field, with citations back to projects. Behind it: real embeddings, real RAG, real grounding.</p>
+      <p><strong>Why this is the unlock:</strong> her work is literally about making AI outputs accurate, structured, and trustworthy. A portfolio that demonstrates that skill by <em>being</em> an aligned AI product is unbeatable positioning. No content strategist on the web has shipped this yet.</p>
+      <dl class="v2-meta">
+        <dt>Stack</dt><dd>Next.js · R3F · WebGPU shader · pgvector/Pinecone · Vercel AI SDK · Claude Haiku</dd>
+        <dt>Reference</dt><dd>Hybrid AI-chat + spatial UI trend · <a href="https://dev.to/roma_armstrong/the-best-uiux-of-2026-why-its-time-for-a-new-interface-6n7" target="_blank">2026 interface essay</a></dd>
+        <dt>Build</dt><dd>~3 weeks · medium-high effort · highest payoff</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card v2-card" data-choice="splat" onclick="toggleSelect(this)">
+    <div class="v2-preview splat">
+      <!-- random splat dots simulating photoreal point cloud -->
+      <div class="dot" style="left:20%;top:30%;width:20px;height:20px;background:#7a5832;opacity:.6"></div>
+      <div class="dot" style="left:25%;top:38%;width:14px;height:14px;background:#a07a48;opacity:.7"></div>
+      <div class="dot" style="left:32%;top:44%;width:24px;height:24px;background:#8a6238;opacity:.5"></div>
+      <div class="dot" style="left:42%;top:50%;width:30px;height:30px;background:#b08858;opacity:.6"></div>
+      <div class="dot" style="left:55%;top:55%;width:22px;height:22px;background:#d4a878;opacity:.6"></div>
+      <div class="dot" style="left:68%;top:48%;width:18px;height:18px;background:#9a7240;opacity:.55"></div>
+      <div class="dot" style="left:78%;top:42%;width:14px;height:14px;background:#785030;opacity:.5"></div>
+      <div class="dot" style="left:62%;top:32%;width:26px;height:26px;background:#ffe4a0;opacity:.4;filter:blur(2px)"></div>
+      <div class="dot" style="left:48%;top:25%;width:18px;height:18px;background:#d8b070;opacity:.5;filter:blur(1px)"></div>
+      <div class="dot" style="left:15%;top:62%;width:32px;height:32px;background:#604028;opacity:.55"></div>
+      <div class="dot" style="left:80%;top:65%;width:28px;height:28px;background:#503820;opacity:.6"></div>
+      <div class="reticle"></div>
+      <div class="annot">notebook · "AI-aligned content frameworks"</div>
+    </div>
+    <div class="v2-body">
+      <div class="v2-rank">02 · MOST NOVEL TECHNOLOGY</div>
+      <h3>The Photoreal Studio (Gaussian Splat)</h3>
+      <span class="v2-tag exotic">Gaussian Splatting</span>
+      <span class="v2-tag exotic">KHR_gaussian_splatting glTF</span>
+      <span class="v2-tag warm">photoreal volumetric</span>
+      <p>Capture Anchal's actual workspace with a 3-minute phone video. Convert to a 3D Gaussian splat — millions of fuzzy ellipsoids that render photoreal, in real-time, in the browser. Visitors fly through a real-feeling space; her actual notebook, certifications, and bookshelf become hover-targets that open content.</p>
+      <p><strong>Why now:</strong> Khronos finalized the glTF Gaussian-splat extension in Feb 2026. Almost no portfolios use this yet. It looks like XR, runs on a phone, and is unmistakably "next."</p>
+      <dl class="v2-meta">
+        <dt>Stack</dt><dd>SuperSplat capture · Spark / @react-three/gaussian-splat · Three.js · Drei</dd>
+        <dt>Reference</dt><dd><a href="https://www.thefuture3d.com/blog/state-of-gaussian-splatting-2026/" target="_blank">State of GS 2026</a> · ioLabs splat previews</dd>
+        <dt>Build</dt><dd>~2 weeks (mostly capture+annotation) · medium effort · biggest "what is this?" reaction</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card v2-card" data-choice="cinematic" onclick="toggleSelect(this)">
+    <div class="v2-preview cine">
+      <div class="sun"></div>
+      <div class="horizon"></div>
+      <div class="silhouette"></div>
+      <div class="grain"></div>
+      <div class="ts">CHAPTER · 02 / 06</div>
+      <div class="chapter">— she walked toward the language —</div>
+    </div>
+    <div class="v2-body">
+      <div class="v2-rank">03 · MOST FILM-LIKE</div>
+      <h3>The Pendragon Cycle (Cinematic Scroll)</h3>
+      <span class="v2-tag">Awwwards SOTD Jan 2026</span>
+      <span class="v2-tag">cinematic dolly-track scroll</span>
+      <span class="v2-tag">color-graded chapters</span>
+      <p>Same family as Merlin Studio's <em>Pendragon Cycle</em>. The scroll wheel is a film camera dolly — one continuous 3D world, six chapters of her career rendered as scenes (newsroom → SEO data center → AI lab → present). Weighted transitions, deliberate pacing, color-grading shifts per chapter. Less "website," more "short film with a UI."</p>
+      <p><strong>Why this works for her:</strong> her brand is narrative + structure. A site that <em>is</em> a written narrative — paced, scene-graded, scored — collapses content + 3D into one act.</p>
+      <dl class="v2-meta">
+        <dt>Stack</dt><dd>Three.js · GSAP ScrollTrigger · Lenis · Blender scenes · post-FX pipeline · Theatre.js</dd>
+        <dt>Reference</dt><dd><a href="https://www.webgpu.com/showcase/pendragon-cycle-webgl-cinematic-storytelling/" target="_blank">Pendragon Cycle</a> · <a href="https://www.webgpu.com/showcase/joseph-santamaria-3d-webgl-portfolio/" target="_blank">Joseph Santamaria</a></dd>
+        <dt>Build</dt><dd>~4 weeks · highest craft effort · most awards-eligible</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="card v2-card" data-choice="city" onclick="toggleSelect(this)">
+    <div class="v2-preview city">
+      <div class="tower t1">CONTENT</div>
+      <div class="tower t2">SEO</div>
+      <div class="tower t3">CLARITY</div>
+      <div class="tower t4">RLHF</div>
+      <div class="tower t5">INTENT</div>
+      <div class="tower t6">PROMPT</div>
+      <div class="fog"></div>
+      <div class="fps">120 FPS · WebGPU</div>
+    </div>
+    <div class="v2-body">
+      <div class="v2-rank">04 · MOST TECHNICALLY SHOWY</div>
+      <h3>The Type-City (WebGPU Procedural)</h3>
+      <span class="v2-tag exotic">WebGPU · 120 FPS</span>
+      <span class="v2-tag">procedural generation</span>
+      <span class="v2-tag">sculptural typography 2026</span>
+      <p>Same engine class as <em>Samsy's Gen-02</em> (Awwwards Developer Award 2025) — but the city is built entirely from her words. Buildings are stacked sentences from her writing. Streets are paragraphs. Light is information hierarchy. Walk through a literal "city of language" generated from her actual content corpus.</p>
+      <p><strong>The conceptual hook:</strong> she says "content is structure" — this site is structure that <em>is</em> content. Every shape on screen is one of her sentences, rendered architecturally.</p>
+      <dl class="v2-meta">
+        <dt>Stack</dt><dd>WebGPU (gpu-curtains or three.webgpu) · custom WGSL shaders · MSDF type · procedural layout</dd>
+        <dt>Reference</dt><dd><a href="https://www.webgpu.com/showcase/gen-02-portfolio-an-immersive-world/" target="_blank">Samsy Gen-02</a> · <a href="https://www.webgpu.com/showcase/martin-laxenaire-portfolio-webgpu-game-gpu-curtains/" target="_blank">Martin Laxenaire</a></dd>
+        <dt>Build</dt><dd>~5 weeks · highest engineering effort · highest "wow"</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card v2-card" data-choice="room" onclick="toggleSelect(this)">
+    <div class="v2-preview room">
+      <div class="paper">
+        <div class="h">A Reading Room</div>
+        <div class="ln m"></div>
+        <div class="ln s"></div>
+        <div class="ln m"></div>
+        <div class="ln s"></div>
+        <div class="ln m"></div>
+        <div class="seal"></div>
+      </div>
+    </div>
+    <div class="v2-body">
+      <div class="v2-rank">05 · MOST CONTRARIAN (the "anti-AI" play)</div>
+      <h3>The Reading Room (Tactile Rebellion)</h3>
+      <span class="v2-tag warm">Creative Bloq 2026 trend</span>
+      <span class="v2-tag warm">paper · ink · weight</span>
+      <span class="v2-tag">3D as restraint, not spectacle</span>
+      <p>The contrarian play. While everyone races toward more pixels, Anchal's site goes the other direction — <em>tactile rebellion</em>, the dominant 2026 design trend per Creative Bloq. Real paper textures, ink that bleeds, type carved into wood, leather grain. The "3D" is sub-perceptual — pages have weight, ink has thickness, light hits like a desk lamp.</p>
+      <p><strong>The provocative bet:</strong> a content strategist who explicitly says "I value clarity over spectacle" stands out more by <em>not</em> doing AI-aesthetic. Hermès digital × New Yorker × your favorite indie press. Refined, expensive-looking, almost zero competition.</p>
+      <dl class="v2-meta">
+        <dt>Stack</dt><dd>Next.js · R3F (subtle) · custom paper/ink shaders · physical-feeling lenis scroll</dd>
+        <dt>Reference</dt><dd><a href="https://www.creativebloq.com/design/graphic-design/texture-warmth-and-tactile-rebellion-the-big-graphic-design-trends-for-2026" target="_blank">Tactile rebellion 2026</a> · <a href="https://www.webgpu.com/showcase/offfice-furniture-studio-portfolio-webgl/" target="_blank">OFFFICE</a> (restraint study)</dd>
+        <dt>Build</dt><dd>~2 weeks · low-medium effort · very high craft ceiling</dd>
+      </dl>
+    </div>
+  </div>
+
+</div>
+
+<div class="closing">
+  <strong>My honest pick:</strong> if I had to ship one, <strong>#1 (Self-Reading Portfolio)</strong> is the highest-leverage move for her — it's the only one that <em>demonstrates</em> her actual skill (AI alignment, content evaluation, RAG quality) instead of just describing it. <strong>#2 (Gaussian Splat)</strong> is a close second purely on novelty. <strong>#3 (Pendragon)</strong> wins awards. <strong>#1 + #3 mashed</strong> would be the most defensible "best 3D portfolio on the web" play of 2026.
+  <br><br>
+  Click 1–2 in the browser, or tell me which (or which combo) to design fully.
+</div>

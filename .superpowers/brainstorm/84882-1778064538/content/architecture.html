@@ -1,0 +1,233 @@
+<style>
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    margin-top: 26px;
+  }
+  @media (max-width: 880px) { .arch-grid { grid-template-columns: 1fr; } }
+
+  .arch {
+    border: 1px solid var(--border, #2a2a2a);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--surface, #111);
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .arch:hover { transform: translateY(-3px); border-color: #6cf; box-shadow: 0 14px 40px rgba(108,200,255,.12); }
+
+  .arch-vis {
+    height: 220px; position: relative; overflow: hidden;
+    background: #050810;
+    border-bottom: 1px solid var(--border, #2a2a2a);
+  }
+  .arch-body { padding: 18px 20px 22px; }
+  .arch h3 { margin: 0 0 6px; font-size: 17px; }
+  .arch .lbl { font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: #6cf; opacity: .7; margin-bottom: 6px; }
+  .arch p { margin: 0 0 8px; font-size: 13.2px; line-height: 1.55; opacity: .85; }
+  .arch ul { margin: 6px 0 0; padding: 0 0 0 16px; font-size: 12.5px; opacity: .8; line-height: 1.5; }
+
+  /* shared mini-tokens */
+  .tok-scene { position: absolute; background: linear-gradient(135deg, #1a1f3a, #0a0e1c); border-radius: 4px; }
+  .tok-text  { position: absolute; height: 3px; border-radius: 2px; background: rgba(220,235,255,.4); }
+  .tok-chat  { position: absolute; background: rgba(0,0,0,.55); border: 1px solid rgba(108,200,255,.4); border-radius: 18px; padding: 5px 10px; font-family: ui-monospace, monospace; font-size: 9.5px; color: #6cf; backdrop-filter: blur(4px); white-space: nowrap; }
+  .tok-cursor { display: inline-block; width: 4px; height: 9px; background: #6cf; margin-left: 2px; vertical-align: -1px; animation: bk 1s steps(2) infinite; }
+  @keyframes bk { 50% { opacity: 0; } }
+  .tok-arrow {
+    position: absolute; color: rgba(108,200,255,.55); font-size: 16px;
+  }
+  .tok-grain { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.3) 1px, transparent 1px); background-size: 4px 4px; opacity: .08; }
+
+  /* ====== A. Linear → Chat reveal ====== */
+  .a-stage { position:absolute; inset:0;
+    background: linear-gradient(180deg, #2a1a30 0%, #0a0814 60%, #050308 100%);
+  }
+  .a-strip { position:absolute; left:0;right:0; bottom:14%; height:24px;
+    background: linear-gradient(90deg, #1a0810 0%, #2a1a30 30%, #1a2a44 60%, #0a1a3a 100%);
+    border-radius: 2px;
+  }
+  .a-marker { position:absolute; bottom:14%; width:4px; height:24px; background: #fcd; opacity:.85; }
+  .a-label  { position:absolute; bottom:6%; font-family: Georgia, serif; font-style: italic; font-size: 11px; color: #fcd; letter-spacing: .04em; }
+
+  /* ====== B. Chat hero, scroll-on-demand ====== */
+  .b-stage { position:absolute; inset:0; background: radial-gradient(ellipse at 50% 50%, #0a0a18 0%, #000 80%); }
+  .b-field { position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(108,200,255,.18), transparent 40%),
+      radial-gradient(circle at 70% 70%, rgba(180,120,255,.15), transparent 40%);
+    filter: blur(18px);
+  }
+  .b-bigprompt {
+    position:absolute; left:50%; top:42%; transform:translate(-50%,-50%);
+    font-family: ui-monospace, monospace; font-size: 14px;
+    color: #6cf; background: rgba(0,0,0,.6);
+    padding: 12px 22px; border-radius: 32px;
+    border: 1px solid rgba(108,200,255,.45);
+    box-shadow: 0 0 30px rgba(108,200,255,.25);
+  }
+  .b-cta {
+    position:absolute; left:50%; bottom:18%; transform:translateX(-50%);
+    font-size: 11px; color: rgba(220,235,255,.6); letter-spacing: .25em; text-transform: uppercase;
+  }
+  .b-cta::after { content: ' ↓'; }
+
+  /* ====== C. HUD (chat overlay always present) ====== */
+  .c-stage { position:absolute; inset:0;
+    background: linear-gradient(180deg, #14283a 0%, #06121e 70%, #050308 100%);
+  }
+  .c-horizon { position:absolute; bottom: 38%; left:0; right:0; height:1px; background: linear-gradient(90deg, transparent, rgba(255,180,200,.5), transparent); }
+  .c-sun { position:absolute; bottom:38%; left:50%; transform:translate(-50%,40%); width:60px;height:60px;border-radius:50%;background:radial-gradient(circle, #ffb088, #c8568f 70%, transparent);filter:blur(2px);}
+  .c-silh { position:absolute; bottom:0;left:0;right:0;height:38%; background: #04080f;
+    clip-path: polygon(0 60%, 12% 50%, 26% 60%, 40% 35%, 56% 50%, 70% 40%, 86% 55%, 100% 60%, 100% 100%, 0 100%);
+  }
+  .c-hud {
+    position:absolute; bottom: 14px; left: 50%; transform:translateX(-50%);
+    width: 78%;
+  }
+  .c-hudbar {
+    background: rgba(0,0,0,.55);
+    border: 1px solid rgba(108,200,255,.35);
+    border-radius: 30px;
+    padding: 7px 14px;
+    font-family: ui-monospace, monospace; font-size: 10.5px;
+    color: rgba(220,235,255,.85);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .c-hudbar .ic { width:6px; height:6px; border-radius: 50%; background: #6cf; box-shadow: 0 0 6px #6cf; }
+
+  /* ====== D. Chapter-by-chapter chat ====== */
+  .d-stage { position:absolute; inset:0;
+    background: linear-gradient(135deg, #1a1230 0%, #0a0814 60%, #050308 100%);
+  }
+  .d-chap {
+    position:absolute; top: 28%; left: 50%; transform: translateX(-50%);
+    font-family: Georgia, serif; font-style: italic; color: #fcd; font-size: 14px;
+    letter-spacing: .04em;
+  }
+  .d-chapnum {
+    position:absolute; top: 14px; right: 18px;
+    font-family: ui-monospace, monospace; font-size: 10.5px;
+    color: rgba(255,200,220,.6); letter-spacing: .15em;
+  }
+  .d-prompt {
+    position:absolute; left: 50%; bottom: 22%; transform: translateX(-50%);
+    font-family: ui-monospace, monospace; font-size: 11px;
+    color: #fcd; background: rgba(0,0,0,.55);
+    padding: 7px 14px; border-radius: 18px;
+    border: 1px solid rgba(255,200,220,.4);
+    backdrop-filter: blur(4px); white-space: nowrap;
+  }
+
+</style>
+
+<h2>How should the cinematic + chat fit together?</h2>
+<p class="subtitle">This is the architecture-defining call. Each option is genuinely different, not stylistic.</p>
+
+<div class="cards arch-grid" data-multiselect>
+
+  <!-- A. Linear → reveals chat -->
+  <div class="card arch" data-choice="A" onclick="toggleSelect(this)">
+    <div class="arch-vis">
+      <div class="a-stage"></div>
+      <div class="tok-grain"></div>
+      <div class="a-strip"></div>
+      <div class="a-marker" style="left:10%"></div>
+      <div class="a-marker" style="left:28%"></div>
+      <div class="a-marker" style="left:46%"></div>
+      <div class="a-marker" style="left:64%"></div>
+      <div class="a-marker" style="left:82%"></div>
+      <div class="a-marker" style="left:97%; background: #6cf"></div>
+      <div class="a-label" style="left:8%">— Editorial</div>
+      <div class="a-label" style="left:26%">— SEO</div>
+      <div class="a-label" style="left:44%">— RLHF</div>
+      <div class="a-label" style="left:62%">— Now</div>
+      <div class="a-label" style="left:80%; color:#6cf">— Ask her</div>
+    </div>
+    <div class="arch-body">
+      <div class="lbl">A · Linear-then-chat</div>
+      <h3>Cinematic film, chat at the end</h3>
+      <p>Visitor scrolls through the 6-chapter cinematic film of her career first. At the end of chapter 6, the chat reveals as a finale: <em>"Now, ask her anything."</em></p>
+      <ul>
+        <li><strong>Pro:</strong> cleanest narrative; awards-bait; chat feels earned</li>
+        <li><strong>Pro:</strong> simplest to build — chat is one component, not a layer</li>
+        <li><strong>Con:</strong> impatient visitors may bounce before reaching chat</li>
+        <li><strong>Con:</strong> chat is "feature," not the headline</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- B. Chat hero, scroll on demand -->
+  <div class="card arch" data-choice="B" onclick="toggleSelect(this)">
+    <div class="arch-vis">
+      <div class="b-stage"></div>
+      <div class="b-field"></div>
+      <div class="b-bigprompt">ask anchal anything<span class="tok-cursor"></span></div>
+      <div class="b-cta">or take the cinematic tour</div>
+    </div>
+    <div class="arch-body">
+      <div class="lbl">B · Chat-first</div>
+      <h3>Chat is the headline; film is "expand"</h3>
+      <p>Land in the WebGPU semantic field. The first thing you see is the prompt. Below: "or take the cinematic tour" — clicking enters the linear film. Two doors, chat is the front one.</p>
+      <ul>
+        <li><strong>Pro:</strong> chat is unmistakably THE thing — strongest brand bet</li>
+        <li><strong>Pro:</strong> recruiters/strangers can interrogate the portfolio in 30 seconds</li>
+        <li><strong>Con:</strong> film becomes a side-attraction (less SOTY-eligible)</li>
+        <li><strong>Con:</strong> empty chat box is intimidating; needs strong starter prompts</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- C. HUD overlay -->
+  <div class="card arch" data-choice="C" onclick="toggleSelect(this)">
+    <div class="arch-vis">
+      <div class="c-stage"></div>
+      <div class="c-horizon"></div>
+      <div class="c-sun"></div>
+      <div class="c-silh"></div>
+      <div class="tok-grain"></div>
+      <div class="c-hud">
+        <div class="c-hudbar"><span class="ic"></span> ask while you scroll · "what was her SEO at qorvatech?"</div>
+      </div>
+    </div>
+    <div class="arch-body">
+      <div class="lbl">C · HUD overlay</div>
+      <h3>Film + chat at all times</h3>
+      <p>The 3D film plays in the background; the chat is always present as a subtle HUD bar at the bottom. Asking a question pauses the film and pulls you to the relevant chapter. Both modes coexist.</p>
+      <ul>
+        <li><strong>Pro:</strong> most feature-dense; user can choose their mode any time</li>
+        <li><strong>Pro:</strong> answers can literally <em>cite</em> the chapter you're seeing</li>
+        <li><strong>Con:</strong> highest complexity; coupling film state ↔ chat state is gnarly</li>
+        <li><strong>Con:</strong> two interaction systems competing for attention; risk: feels busy</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- D. Chapter-paced chat -->
+  <div class="card arch" data-choice="D" onclick="toggleSelect(this)">
+    <div class="arch-vis">
+      <div class="d-stage"></div>
+      <div class="tok-grain"></div>
+      <div class="d-chapnum">CHAPTER · 03 / 06 — RLHF</div>
+      <div class="d-chap">— she taught the machines —</div>
+      <div class="d-prompt">ask about this chapter ↑</div>
+    </div>
+    <div class="arch-body">
+      <div class="lbl">D · Chapter-by-chapter</div>
+      <h3>Each chapter ends with a contextual prompt</h3>
+      <p>Same cinematic film as A, but each chapter ends with a chat moment scoped to that chapter: <em>"ask about her RLHF work."</em> Six small grounded chats, not one big open-ended one. RAG corpus filters per chapter.</p>
+      <ul>
+        <li><strong>Pro:</strong> chat questions are guided → much higher answer quality</li>
+        <li><strong>Pro:</strong> rhythmic — film, chat, film, chat — keeps engagement</li>
+        <li><strong>Pro:</strong> RAG is easier (smaller corpus per chapter)</li>
+        <li><strong>Con:</strong> no global "ask anything" entry — power users may want it</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:26px; padding:16px 20px; border:1px dashed var(--border,#2a2a2a); border-radius:10px; font-size:13px; line-height:1.6; opacity:.85">
+  <strong style="color:#6cf">My recommendation:</strong> <strong>D (Chapter-by-chapter)</strong> with a <strong>persistent "ask anything" button in the corner</strong> that escapes to a global chat (the B mode). That's the only option that serves both the cinematic-film judges and the practical visitor. <strong>C looks tempting but is a trap</strong> — film-state + chat-state coupling will eat 2 weeks of bug-fixing.
+</div>

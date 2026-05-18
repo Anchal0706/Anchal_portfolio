@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/Users/arpit.tiwari/.claude/plugins/cache/claude-plugins-official/superpowers/5.1.0/skills/brainstorming/scripts/start-server.sh *)",
+      "WebSearch",
+      "Bash(mkdir -p \"/Users/arpit.tiwari/Desktop/ARPIT_MAIN/Anchal Mishra/portfolio\")",
+      "Bash(mkdir -p src/app src/app/note src/components src/components/chapters src/lib content public/images)",
+      "Bash(npm install *)",
+      "Bash(curl -sf -o /tmp/page.html -w \"HTTP %{http_code}\\\\n\" http://localhost:3000/)",
+      "Read(//tmp/**)",
+      "Bash(curl -sf -o /tmp/note.html -w \"HTTP /note: %{http_code}\\\\n\" http://localhost:3000/note)",
+      "Bash(curl -sf http://localhost:3000/)",
+      "Bash(kill 93687)",
+      "Bash(curl -sf http://localhost:5173/src/components/Work.tsx)",
+      "Bash(npm run *)",
+      "Bash(grep -v \":0$\")",
+      "Skill(seo-page)",
+      "Bash(node audit/capture3.mjs)",
+      "Bash(npx playwright *)",
+      "Bash(awk '{print $5, $9}')",
+      "Bash(awk '/what-box-in/,/}/' \"/Users/arpit.tiwari/Desktop/ARPIT_MAIN/Anchal Mishra/portfolio/src/components/styles/WhatIDo.css\")",
+      "Read(//private/tmp/**)",
+      "Bash(curl *)",
+      "Bash(tail -5 /tmp/dev3.log)",
+      "Bash(grep -rln \"character\\\\.enc\\\\|draco\\\\|char_enviorment\\\\|GLTFLoader\\\\|DRACOLoader\" src/ index.html)",
+      "Bash(du -sh public/models/character.enc public/models/char_enviorment.hdr public/draco/)",
+      "Bash(rm -f public/models/character.enc public/models/encrypt.cjs)",
+      "Bash(rm -rf public/draco/)",
+      "Bash(cp /tmp/akash-restore/public/models/character.enc '/Users/arpit.tiwari/Desktop/ARPIT_MAIN/Anchal Mishra/portfolio/public/models/character.enc')",
+      "Bash(cp /tmp/akash-restore/public/models/encrypt.cjs '/Users/arpit.tiwari/Desktop/ARPIT_MAIN/Anchal Mishra/portfolio/public/models/encrypt.cjs')",
+      "Bash(cp -r /tmp/akash-restore/public/draco/. '/Users/arpit.tiwari/Desktop/ARPIT_MAIN/Anchal Mishra/portfolio/public/draco/')",
+      "Bash(cp /tmp/akash-restore/src/components/Character/Scene.tsx '/Users/arpit.tiwari/Desktop/ARPIT_MAIN/Anchal Mishra/portfolio/src/components/Character/Scene.tsx')"
+    ]
+  }
+}
