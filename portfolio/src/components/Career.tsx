@@ -24,6 +24,8 @@ const Career = () => {
               Working with schools, principals, and senior academic stakeholders to build
               partnerships and facilitate workshops on AI, learning, and digital awareness.
               Engaging directly with students to introduce them to learning programmes.
+              Also, I'm now expanding my content expertise into short-form video editing and visual storytelling, particularly for digital and social media content.
+              Using CapCut, I work on short-form video concepts, pacing, captions, transitions and storytelling.
             </p>
           </div>
           <div className="career-info-box">
