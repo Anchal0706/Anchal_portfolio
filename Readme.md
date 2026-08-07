@@ -88,7 +88,7 @@ My approach is simple:
 Use AI for speed.
 Use human thinking for quality.
 
-LLM Training & AI Evaluation
+**LLM Training & AI Evaluation**
 
 My experience with AI goes beyond using AI writing tools.
 
@@ -106,7 +106,7 @@ I also ask:
 
 "Is it accurate? Is it relevant? Does it follow the instruction? Does it actually solve the problem?"
 
-Research & Analysis
+**Research & Analysis**
 
 Research has been the foundation of my writing career.
 
@@ -116,7 +116,7 @@ My work involves content research, information analysis, fact checking, content 
 
 This is especially important in an AI-driven environment where information can be generated quickly but still needs to be evaluated carefully.
 
-Video & Visual Storytelling
+**Video & Visual Storytelling**
 
 Words are not the only way to communicate.
 
