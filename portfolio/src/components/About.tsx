@@ -6,12 +6,11 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">
-          I help brands, platforms, and AI systems communicate with greater clarity.
-          My work sits at the intersection of content strategy, SEO intelligence, and
-          AI-aligned communication. I do not see content as words alone — I see it as
-          structure, intent, logic, and measurable usefulness. Today I work where
-          modern communication is changing fastest: where audience behaviour, search
-          behaviour, and AI systems increasingly overlap.
+          I've spent 5+ years turning research and ideas into meaningful content.
+          I started my career as a content writer when research meant reading, analysing and writing everything from scratch. 
+          Then AI changed the content industry.Instead of stepping away from writing, I decided to understand what was changing.
+          Today, I combine content writing, SEO, Generative AI, LLM training, research, communication 
+          and visual storytelling to create content that has a purpose — not just words on a page..
         </p>
       </div>
     </div>
