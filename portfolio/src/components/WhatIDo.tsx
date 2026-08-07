@@ -110,6 +110,33 @@ const WhatIDo = () => {
             className="what-content what-noTouch"
             ref={(el) => setRef(el, 1)}
           >
+              ```jsx
+<div className="what-content-in">
+  <h3>VIDEO &amp; VISUAL STORYTELLING</h3>
+  <h4>Editing, Pacing, and Visual Communication</h4>
+  <p>
+    Short-form video editing and visual storytelling — transforming ideas into
+    engaging digital content through thoughtful pacing, captions, transitions,
+    and story-driven editing. Exploring how AI, editing, and creativity can
+    work together to create more engaging visual experiences.
+  </p>
+     <h5>Skillset &amp; tools</h5>
+     <div className="what-content-flex">
+        <div className="what-tags">Video editing</div>
+        <div className="what-tags">Short-form content</div>
+        <div className="what-tags">Visual storytelling</div>
+        <div className="what-tags">Reels &amp; Shorts</div>
+        <div className="what-tags">Captions &amp; transitions</div>
+        <div className="what-tags">CapCut</div>
+    </div>
+    <div className="what-arrow"></div>
+    </div>
+  </div>
+  <div
+  className="what-content what-noTouch"
+  ref={(el) => setRef(el, 2)}
+    >
+      ```
             <div className="what-border1">
               <svg height="100%">
                 <line
