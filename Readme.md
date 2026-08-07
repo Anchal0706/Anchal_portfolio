@@ -2,43 +2,129 @@
 
 ## **Personal Positioning**
 
-I help brands, platforms, and AI systems communicate with greater clarity.
+Write. I Research.  Work With AI. I Create.
+Content & AI Specialist | SEO Content Strategist | LLM Trainer | Digital Content Creator
 
-My work sits at the intersection of content strategy, SEO intelligence, and AI-aligned communication. Over the years, I have built a career around understanding how information performs — how people read it, how search surfaces it, and how AI systems interpret it.
+I've spent 5+ years turning research and ideas into meaningful content.
 
-I do not see content as words alone. I see it as structure, intent, logic, and measurable usefulness.
+I started my career as a content writer when research meant reading, analysing and writing everything from scratch. Then AI changed the content industry.
+
+Instead of stepping away from writing, I decided to understand what was changing.
+
+Today, I combine content writing, SEO, Generative AI, LLM training, research, communication and visual storytelling to create content that has a purpose — not just words on a page.
+
 
 ---
 
 ## **About Me**
 
-I am a content analyst and AI-focused communication professional with experience across content strategy, SEO, digital marketing, and large language model training.
+When I started writing, there was no shortcut. A topic meant research.
 
-I began my career in editorial and content writing, where I developed a strong foundation in research, clarity, and audience understanding. As digital content evolved, so did my work. I moved beyond writing into analysing performance, improving structure, and understanding how content can be made more effective across both human and machine-led environments.
+Research meant multiple websites, articles, reports and notes.
 
-Today, I work where modern communication is changing fastest — at the point where audience behaviour, search behaviour, and AI systems increasingly overlap.
+Then came the writing. Then editing.
 
-My strength lies in combining creative judgement with analytical rigour to create content that is purposeful, usable, and future-ready.
+Then another round of editing according to the client's requirements.
 
+It was time-consuming, but it taught me the most important part of content creation:
+
+How to think before you write.
+
+**Then AI entered the picture.**
+
+Content could suddenly be created in seconds.
+
+But speed brought a new challenge.
+
+If everyone could generate content, what would make one piece better than another? That question changed the direction of my career.
+
+I started learning Generative AI and prompt engineering. My work expanded into AI-assisted content workflows, content evaluation and LLM training, including RLHF and SFT.
+
+And I realised something:
+
+AI didn't make writing less valuable.
+It made thinking more valuable.
+
+Today, I don't see AI and human creativity as opposites.
+
+I see them as collaborators.
 ---
 
 ## **What I Bring**
 
-### **Strategic Content Thinking**
+### **Content That Starts With Thinking
 
-I create content with a clear objective. Every piece is built around audience intent, business relevance, discoverability, and long-term usability.
+I create research-driven content that is designed around the audience, the subject and the purpose behind the content.
 
-### **SEO and Performance Awareness**
+My experience includes SEO blogs, website content, technical content, marketing content, social media content and long-form articles.
 
-My work is shaped by search behaviour, keyword intent, readability, and information hierarchy — not simply by writing volume.
+I don't believe good content is simply about using the right words.
 
-### **AI-Aligned Content Intelligence**
+It is about understanding:
 
-Through LLM training, structured feedback, and output evaluation, I understand how AI-generated content can be improved for accuracy, clarity, coherence, and alignment.
+Who are we talking to?
+What do they need to know?
+Why should they care?
+And what should they do next?
 
-### **Analytical Communication**
+**AI & Generative AI**
 
-I enjoy solving communication problems — improving logic, refining structure, and making complex ideas easier to understand.
+AI has become an important part of my professional journey. I use Generative AI for ideation, research assistance, content structuring, drafting, refinement and workflow optimisation.
+
+But I don't treat AI output as the finished product.
+
+I evaluate it.
+
+I question it.
+
+I edit it.
+
+I add context.
+
+And most importantly, I apply human judgement.
+
+My approach is simple:
+
+Use AI for speed.
+Use human thinking for quality.
+
+LLM Training & AI Evaluation
+
+My experience with AI goes beyond using AI writing tools.
+
+I have worked on LLM training and evaluation, including RLHF and SFT-based workflows.
+
+This involves assessing AI-generated responses, identifying issues, providing structured feedback and working towards improving the accuracy, relevance and quality of model responses.
+
+Working on the evaluation side of AI has also changed the way I look at content.
+
+I don't just ask:
+
+"Does this sound good?"
+
+I also ask:
+
+"Is it accurate? Is it relevant? Does it follow the instruction? Does it actually solve the problem?"
+
+Research & Analysis
+
+Research has been the foundation of my writing career.
+
+I enjoy going beyond the first search result, understanding a subject, comparing information and turning complex material into content that people can actually understand.
+
+My work involves content research, information analysis, fact checking, content validation, audience understanding and critical thinking.
+
+This is especially important in an AI-driven environment where information can be generated quickly but still needs to be evaluated carefully.
+
+Video & Visual Storytelling
+
+Words are not the only way to communicate.
+
+I'm now expanding my content expertise into short-form video editing and visual storytelling, particularly for digital and social media content.
+
+Using CapCut, I work on short-form video concepts, pacing, captions, transitions and storytelling.
+
+This is an evolving part of my skill set, and I'm interested in exploring how AI, editing and storytelling can come together to create more engaging digital content.
 
 ---
 
