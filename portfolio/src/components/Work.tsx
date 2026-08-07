@@ -6,6 +6,14 @@ import { assetUrl } from "../utils/assetUrl";
 
 const projects = [
   {
+    title: "Video Editing",
+    category: "SDAI AI videos / Editing",
+    tools: "CapCut, HeyGen, Higgsfield, Ideogram",
+    image: assetUrl("images/work-llm.svg"),
+    link: "https://www.instagram.com/the_editors_bag?igsh=eHZzeGNiM3Y1dGR4, https://www.instagram.com/schoolofdataandai_?igsh=MWJnNjgyM2JydXlibA=="
+      "mailto:anchalmishra028@gmail.com?subject=LLM%20Evaluation%20Work",
+  },
+  {
     title: "LLM Output Evaluation",
     category: "Outlier AI · RLHF / SFT",
     tools: "Output review, structured feedback, response ranking, accuracy validation",
@@ -13,18 +21,18 @@ const projects = [
     link: "mailto:anchalmishra028@gmail.com?subject=LLM%20Evaluation%20Work",
   },
   {
-    title: "SEO Content Strategy",
-    category: "Qorvatech · Content Marketer",
-    tools: "SEO writing, intent mapping, hierarchy, editorial structure",
-    image: assetUrl("images/work-seo.svg"),
-    link: "mailto:anchalmishra028@gmail.com?subject=SEO%20Strategy%20Work",
-  },
-  {
     title: "AI Workshops for Schools",
     category: "SDAI · Content Analyst",
     tools: "Workshop design, stakeholder communication, student engagement",
     image: assetUrl("images/work-workshops.svg"),
     link: "mailto:anchalmishra028@gmail.com?subject=AI%20Workshops",
+  },
+  {
+    title: "SEO Content Strategy",
+    category: "Qorvatech · Content Marketer",
+    tools: "SEO writing, intent mapping, hierarchy, editorial structure",
+    image: assetUrl("images/work-seo.svg"),
+    link: "mailto:anchalmishra028@gmail.com?subject=SEO%20Strategy%20Work",
   },
   {
     title: "Editorial & Long-form",
